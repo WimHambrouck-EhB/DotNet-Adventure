@@ -3,10 +3,11 @@ using GameLibrary.Classes;
 using GameLibrary.Classes.Items;
 using System.Collections.Generic;
 using GameLibrary.Interfaces;
-using WE03.Properties;
 using System.Globalization;
 using static AdventureLib.Parser;
 using GameLibrary.Enums;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace WE03
 {
@@ -14,18 +15,21 @@ namespace WE03
     {
         private static Game game;
 
-        private const ConsoleColor higlightColor = ConsoleColor.White;
-        private const ConsoleColor badColor = ConsoleColor.Red;
+        private const ConsoleColor highlightColor = ConsoleColor.White;
+        private const ConsoleColor badColor = ConsoleColor.DarkRed;
         private const ConsoleColor goodColor = ConsoleColor.Green;
         private const ConsoleColor neutralColor = ConsoleColor.Blue;
 
         static void Main()
         {
-            TextInfo textInfo = new CultureInfo("nl-BE", true).TextInfo;
-            game = InitGame(ReadStringFromConsole("Before you embark on your grand adventure; what is your name? "));
-            int prevLeft, prevTop;
-
             Console.Clear();
+            Console.ResetColor();
+
+            game = InitGame(ReadStringFromConsole("Before you embark on your grand adventure; what is your name? "));
+            Console.Title = game.Player.Name + (game.Player.Name.Last() == 's' ? "'" : "'s") + " Grand Adventure";
+            Console.Clear();
+
+            int prevLeft, prevTop;
 
             // game loop: zolang spel niet beëindigd is, huidige kamer weergeven en invoer vragen aan de speler
             while (!game.GameOver)
@@ -38,11 +42,21 @@ namespace WE03
                 Console.WriteLine();
 
                 if (prevTop != 0)
-                    Console.SetCursorPosition(prevLeft, prevTop + 1);
+                {
+                    try
+                    {
+                        Console.SetCursorPosition(prevLeft, prevTop + 1);
+                    }
+                    catch (ArgumentOutOfRangeException) // overflow wegens onderkant scherm bereikt
+                    {
+                        Console.BufferHeight += 5;
+                        Console.SetCursorPosition(prevLeft, prevTop + 1);
+                    }
+                }
 
                 // invoer vragen aan de gebruiker en dit doorgeven aan de parser
-                string command = ReadStringFromConsole($"Ok, {textInfo.ToTitleCase(game.Player.Name)}, what next? ");
-                Console.ForegroundColor = higlightColor;
+                string command = ReadStringFromConsole($"Ok, {game.Player.Name}, what next? ");
+                Console.ForegroundColor = highlightColor;
                 CommandType commandType = ParseCommand(command, out List<string> keywords);
                 switch (commandType)
                 {
@@ -55,7 +69,7 @@ namespace WE03
                         }
                         else
                         {
-                            Console.WriteLine($"I don't know what you mean by that.");
+                            Console.WriteLine($"I don't know what you mean by that. Type help for a list of available commands.");
                         }
                         break;
                     case CommandType.Use:
@@ -146,7 +160,9 @@ namespace WE03
         private static Game InitGame(string playerName)
         {
             Beer beer = new Beer();
-            Player player = new Player(playerName, new List<IItem> { beer });
+
+            TextInfo textInfo = new CultureInfo("nl-BE", true).TextInfo;
+            Player player = new Player(textInfo.ToTitleCase(playerName), new List<IItem> { beer });
 
             Room townCentre = new Room { Name = "Town Centre", Description = "The centre of town. To the left is the local bar and up ahead is the forest." };
 
@@ -174,12 +190,14 @@ namespace WE03
         /// <returns>A string containing the user's input.</returns>
         private static string ReadStringFromConsole(string message)
         {
+            Console.ResetColor();
+
             string input;
             bool inputIsInvalid;
             do
             {
                 Console.Write(message);
-                Console.ForegroundColor = higlightColor;
+                Console.ForegroundColor = highlightColor;
                 input = Console.ReadLine();
                 inputIsInvalid = string.IsNullOrWhiteSpace(input);
                 if (inputIsInvalid)
