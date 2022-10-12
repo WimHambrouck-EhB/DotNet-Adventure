@@ -22,7 +22,7 @@ namespace GameLibrary.Classes
             {
                 return GameWon
                     ? "Congratulations, you beat the game!"
-                    : "There's no defeat, in truth, save from within;\nunless you're beaten there, you're bound to win!";
+                    : $"There's no defeat, in truth, save from within;{Environment.NewLine}unless you're beaten there, you're bound to win!";
             }
         }
 

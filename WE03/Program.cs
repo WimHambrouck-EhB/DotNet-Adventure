@@ -23,7 +23,6 @@ namespace WE03
         {
             TextInfo textInfo = new CultureInfo("nl-BE", true).TextInfo;
             game = InitGame(ReadStringFromConsole("Before you embark on your grand adventure; what is your name? "));
-            int headerHeight;
             int prevLeft, prevTop;
 
             Console.Clear();
@@ -34,25 +33,8 @@ namespace WE03
                 prevLeft = Console.CursorLeft;
                 prevTop = Console.CursorTop;
 
-                // kamerinfo weergeven bovenaan scherm
-                string lijntje = new string('=', game.World.CurrentRoom.Description.Length);
-                headerHeight = 5 + game.World.CurrentRoom.ToString().Length / Console.WindowWidth;
-                ClearLine(0, headerHeight);
-                Console.SetCursorPosition(0, 0);
-                Console.WriteLine(lijntje);
-                Console.WriteLine(game.World.CurrentRoom);
-                Console.WriteLine(lijntje);
+                ShowRoomInfo();
 
-                // als er items in de kamer liggen, een lijstje aan de gebruiker laten zien
-                if (game.World.CurrentRoom.Items?.Count > 0)
-                {
-                    string items = $"You can see: {string.Join(", ", game.World.CurrentRoom.Items)}";
-                    ClearLine(headerHeight, 1 + items.Length / Console.WindowWidth);
-                    Console.ForegroundColor = neutralColor;
-                    Console.WriteLine(items);
-                    Console.ResetColor();
-                }
-                
                 Console.WriteLine();
 
                 if (prevTop != 0)
@@ -133,6 +115,30 @@ namespace WE03
         }
 
         /// <summary>
+        /// Shows room info (name, description ad list of items) at the top of the console.
+        /// </summary>
+        private static void ShowRoomInfo()
+        {
+            string lijntje = new string('=', game.World.CurrentRoom.Description.Length);
+            int headerHeight = 5 + game.World.CurrentRoom.ToString().Length / Console.WindowWidth;
+            ClearLine(0, headerHeight);
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine(lijntje);
+            Console.WriteLine(game.World.CurrentRoom);
+            Console.WriteLine(lijntje);
+
+            // als er items in de kamer liggen, een lijstje aan de gebruiker laten zien
+            if (game.World.CurrentRoom.Items?.Count > 0)
+            {
+                string items = $"You can see: {string.Join(", ", game.World.CurrentRoom.Items)}";
+                ClearLine(headerHeight, 1 + items.Length / Console.WindowWidth);
+                Console.ForegroundColor = neutralColor;
+                Console.WriteLine(items);
+                Console.ResetColor();
+            }
+        }
+
+        /// <summary>
         /// Initiates the Items, Rooms, World and Player objects needed during gameplay.
         /// </summary>
         /// <param name="playerName">Name of the player.</param>
@@ -179,7 +185,7 @@ namespace WE03
                 if (inputIsInvalid)
                 {
                     Console.ForegroundColor = badColor;
-                    Console.WriteLine("That is not a valid input.\n");
+                    Console.WriteLine("That is not a valid input." + Environment.NewLine);
                 }
                 Console.ResetColor();
             } while (inputIsInvalid);

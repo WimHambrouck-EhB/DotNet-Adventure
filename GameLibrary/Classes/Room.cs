@@ -79,7 +79,7 @@ namespace GameLibrary.Classes
         /// <returns>The name and the description of the room.</returns>
         public override string ToString()
         {
-            return $"{Name.ToUpperInvariant()}\n{Description}";
+            return $"{Name.ToUpperInvariant()}{Environment.NewLine}{Description}";
         }
     }
 }
