@@ -5,9 +5,9 @@ using System.Text;
 
 namespace GameLibrary.Classes.Items
 {
-    public class Flower : IItem, ILookable, ICombinableWith<Beer>
+    public class Flower : Item, ILookable, ICombinableWith<Beer>
     {
-        public List<string> Names => new List<string> { "flower", "white flower", "beautiful flower", "jasmine", "jasmine flower" };
+        public override List<string> Names => new List<string> { "flower", "white flower", "beautiful flower", "jasmine", "jasmine flower" };
         private bool IsBeered;
 
         public string LookMessage()

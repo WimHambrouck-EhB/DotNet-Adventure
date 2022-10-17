@@ -5,9 +5,9 @@ using System.Text;
 
 namespace GameLibrary.Classes.Items
 {
-    public class Door : IItem, ILookable, ICombinableWith<Key>, ICombinableWith<Can>
+    public class Door : Item, ILookable, ICombinableWith<Key>, ICombinableWith<Can>
     {
-        public List<string> Names => new List<string> { "door", "oak door", "massive door", "massive oak door" };
+        public override List<string> Names => new List<string> { "door", "oak door", "massive door", "massive oak door" };
         public bool IsOpened { get; set; }
         
         private bool isLubricated;

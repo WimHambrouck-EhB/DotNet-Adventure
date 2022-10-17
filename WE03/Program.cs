@@ -162,18 +162,18 @@ namespace WE03
             Beer beer = new Beer();
 
             TextInfo textInfo = new CultureInfo("nl-BE", true).TextInfo;
-            Player player = new Player(textInfo.ToTitleCase(playerName), new List<IItem> { beer });
+            Player player = new Player(textInfo.ToTitleCase(playerName), new List<Item> { beer });
 
             Room townCentre = new Room { Name = "Town Centre", Description = "The centre of town. To the left is the local bar and up ahead is the forest." };
 
             Room forest = new Room { Name = "Forest", Description = "A dark dense forest, lined with Sycamore trees. A clearing in the middle reveals a strange wooden door..." };
-            forest.Items = new List<IItem> { new Door() };
+            forest.Items = new List<Item> { new Door() };
 
             Room bar = new Room { Name = "Bar", Description = "The sleaziest, grubbiest bar you've ever seen." };
-            bar.Items = new List<IItem> { new Flower(), new FlowerPot(), new Key() };
+            bar.Items = new List<Item> { new Flower(), new FlowerPot(), new Key() };
 
             Room seaside = new Room { Name = "Seaside", Description = "A beautiful beach and a sky-blue sea." };
-            seaside.Items = new List<IItem> { new Can() };
+            seaside.Items = new List<Item> { new Can() };
 
             townCentre.AddRoom(Direction.North, forest);
             townCentre.AddRoom(Direction.West, bar);

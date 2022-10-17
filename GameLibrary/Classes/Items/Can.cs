@@ -5,9 +5,9 @@ using System.Text;
 
 namespace GameLibrary.Classes.Items
 {
-    public class Can : IItem, IUsable, ITakeable, ILookable
+    public class Can : Item, IUsable, ITakeable, ILookable
     {
-        public List<string> Names => new List<string> { "can", "can of wd40", "wd40", "lubricant", "can of lubricant" };
+        public override List<string> Names => new List<string> { "can", "can of wd40", "wd40", "lubricant", "can of lubricant" };
         public bool IsEmpty { get; set; }
 
         public string LookMessage()

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace GameLibrary.Classes.Items
 {
-    public class Key : IItem, ITakeable, ILookable, IUsable
+    public class Key : Item, ITakeable, ILookable, IUsable
     {
-        public List<string> Names => new List<string> { "key", "unwieldy key", "large key", "old key", "old looking key" };
+        public override List<string> Names => new List<string> { "key", "unwieldy key", "large key", "old key", "old looking key" };
 
         public string LookMessage()
         {

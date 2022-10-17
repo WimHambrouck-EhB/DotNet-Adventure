@@ -53,8 +53,8 @@ namespace GameLibrary.Classes
                 keywords.Add(keywords[0]);
 
             // item1 opzoeken in Inventory, item2 in de kamer
-            IItem firstItem = FindItemInInventory(keywords[0]);
-            IItem secondItem = FindItemInRoom(keywords[1], World.CurrentRoom);
+            Item firstItem = FindItemInInventory(keywords[0]);
+            Item secondItem = FindItemInRoom(keywords[1], World.CurrentRoom);
 
             // eerste item zit niet in de Inventory van de speler, foutboodschap teruggeven
             if (firstItem == null)
@@ -131,7 +131,7 @@ namespace GameLibrary.Classes
         public string Take(string itemName)
         {
             // zoek naar item in huidige kamer
-            IItem item = FindItemInRoom(itemName, World.CurrentRoom);
+            Item item = FindItemInRoom(itemName, World.CurrentRoom);
 
             // indien item gevonden
             if (item != null)
@@ -168,7 +168,7 @@ namespace GameLibrary.Classes
             if (itemName.Contains("inventory"))
                 return string.Format("You are currently carrying: {0}", string.Join(", ", Player.Inventory));
 
-            IItem roomItem;
+            Item roomItem;
             // nakijken of het item in de huidige kamer, dan wel in de Inventory van de speler zit. Als beide functies null teruggeven, is het item niet gevonden, indien wel, opslagen in roomItem
             if((roomItem = FindItemInRoom(itemName, World.CurrentRoom)) == null && (roomItem = FindItemInInventory(itemName)) == null)
             {
@@ -206,12 +206,12 @@ namespace GameLibrary.Classes
         /// <param name="itemName">Name of the item to find.</param>
         /// <param name="room"><see cref="Room"/> in which to find the item.</param>
         /// <returns>The <see cref="IItem"/> with corresponding name, null if not found.</returns>
-        private static IItem FindItemInRoom(string itemName, Room room)
+        private static Item FindItemInRoom(string itemName, Room room)
         {
             //// alternatieve oplossing met LINQ-query:
             // return room.Items.Where(item => item.Names.Contains(itemName)).FirstOrDefault();
 
-            foreach (IItem roomItem in room.Items)
+            foreach (Item roomItem in room.Items)
             {
                 if (roomItem.Names.Contains(itemName))
                 {
@@ -227,9 +227,12 @@ namespace GameLibrary.Classes
         /// </summary>
         /// <param name="itemName">Name of the item to find.</param>
         /// <returns>An <see cref="IItem"/> with corresponding name, null if not found.</returns>
-        private IItem FindItemInInventory(string itemName)
+        private Item FindItemInInventory(string itemName)
         {
-            foreach (IItem item in Player.Inventory)
+            //// alternatieve oplossing met LINQ-query:
+            // return Player.Inventory.Where(item => item.Names.Contains(itemName)).FirstOrDefault();
+
+            foreach (Item item in Player.Inventory)
             {
                 if(item.Names.Contains(itemName))
                 {

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace GameLibrary.Classes.Items
 {
-    public class FlowerPot : IItem, ILookable
+    public class FlowerPot : Item, ILookable
     {
-        public List<string> Names => new List<string> { "flower pot", "pot", "ornate pot", "ornate flower pot" };
+        public override List<string> Names => new List<string> { "flower pot", "pot", "ornate pot", "ornate flower pot" };
 
         public string LookMessage()
         {

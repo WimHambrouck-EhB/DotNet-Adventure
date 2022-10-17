@@ -5,9 +5,9 @@ using System.Text;
 
 namespace GameLibrary.Classes.Items
 {
-    public class Beer : IItem, IUsable, ILookable, ICombinableWith<Beer>
+    public class Beer : Item, IUsable, ILookable, ICombinableWith<Beer>
     {
-        public List<string> Names => new List<string> { "beer", "bottle", "bottle of beer", "beer bottle" };
+        public override List<string> Names => new List<string> { "beer", "bottle", "bottle of beer", "beer bottle" };
         public bool PlayerDrankTooMuch { get; set; }
         private int drinkCount;
 

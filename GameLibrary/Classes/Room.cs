@@ -10,7 +10,7 @@ namespace GameLibrary.Classes
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<IItem> Items { get; set; }
+        public List<Item> Items { get; set; }
         public Dictionary<Direction, Room> Exits { get; set; }
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace GameLibrary.Classes
         public Room()
         {
             Exits = new Dictionary<Direction, Room>();
-            Items = new List<IItem>();
+            Items = new List<Item>();
         }
 
         /// <summary>
