@@ -133,18 +133,18 @@ namespace WE03
         /// </summary>
         private static void ShowRoomInfo()
         {
-            string lijntje = new string('=', game.World.CurrentRoom.Description.Length);
-            int headerHeight = 5 + game.World.CurrentRoom.ToString().Length / Console.WindowWidth;
+            string lijntje = new string('=', game.CurrentRoom.Description.Length);
+            int headerHeight = 5 + game.CurrentRoom.ToString().Length / Console.WindowWidth;
             ClearLine(0, headerHeight);
             Console.SetCursorPosition(0, 0);
             Console.WriteLine(lijntje);
-            Console.WriteLine(game.World.CurrentRoom);
+            Console.WriteLine(game.CurrentRoom);
             Console.WriteLine(lijntje);
 
             // als er items in de kamer liggen, een lijstje aan de gebruiker laten zien
-            if (game.World.CurrentRoom.Items?.Count > 0)
+            if (game.CurrentRoom.Items?.Count > 0)
             {
-                string items = $"You can see: {string.Join(", ", game.World.CurrentRoom.Items)}";
+                string items = $"You can see: {string.Join(", ", game.CurrentRoom.Items)}";
                 ClearLine(headerHeight, 1 + items.Length / Console.WindowWidth);
                 Console.ForegroundColor = neutralColor;
                 Console.WriteLine(items);
@@ -170,7 +170,7 @@ namespace WE03
             forest.Items = new List<Item> { new Door() };
 
             Room bar = new Room { Name = "Bar", Description = "The sleaziest, grubbiest bar you've ever seen." };
-            bar.Items = new List<Item> { new Flower(), new FlowerPot(), new Key() };
+            bar.Items = new List<Item> { new Flower(), new FlowerPot() };
 
             Room seaside = new Room { Name = "Seaside", Description = "A beautiful beach and a sky-blue sea." };
             seaside.Items = new List<Item> { new Can() };
@@ -179,8 +179,7 @@ namespace WE03
             townCentre.AddRoom(Direction.West, bar);
             townCentre.AddRoom(Direction.South, seaside);
 
-            World world = new World(townCentre);
-            return new Game(player, world);
+            return new Game(player, townCentre);
         }
 
         /// <summary>

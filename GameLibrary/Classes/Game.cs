@@ -9,7 +9,7 @@ namespace GameLibrary.Classes
     public class Game
     {
         public Player Player { get; set; }
-        public World World { get; set; }
+        public Room CurrentRoom { get; set; }
         public bool GameOver { get; set; }
         public bool GameWon { get; set; }
 
@@ -31,10 +31,10 @@ namespace GameLibrary.Classes
         /// </summary>
         /// <param name="player"></param>
         /// <param name="world"></param>
-        public Game(Player player, World world)
+        public Game(Player player, Room startingRoom)
         {
             Player = player ?? throw new ArgumentNullException(nameof(player), "Without a player, there is no game...");
-            World = world ?? throw new ArgumentNullException(nameof(world), "It would be rather empty around here without a World");
+            CurrentRoom = startingRoom ?? throw new ArgumentNullException(nameof(startingRoom), "It would be rather empty around here without a Room");
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace GameLibrary.Classes
 
             // item1 opzoeken in Inventory, item2 in de kamer
             Item firstItem = FindItemInInventory(keywords[0]);
-            Item secondItem = FindItemInRoom(keywords[1], World.CurrentRoom);
+            Item secondItem = FindItemInRoom(keywords[1], CurrentRoom);
 
             // eerste item zit niet in de Inventory van de speler, foutboodschap teruggeven
             if (firstItem == null)
@@ -131,7 +131,7 @@ namespace GameLibrary.Classes
         public string Take(string itemName)
         {
             // zoek naar item in huidige kamer
-            Item item = FindItemInRoom(itemName, World.CurrentRoom);
+            Item item = FindItemInRoom(itemName, CurrentRoom);
 
             // indien item gevonden
             if (item != null)
@@ -140,7 +140,7 @@ namespace GameLibrary.Classes
                 if (item is ITakeable)
                 {
                     // item uit huidige kamer halen, toevoegen aan Inventory van de speler en TakeMessage weergeven
-                    World.CurrentRoom.Items.Remove(item);
+                    CurrentRoom.Items.Remove(item);
                     Player.Inventory.Add(item);
                     return (item as ITakeable).TakeMessage();
                 }
@@ -170,7 +170,7 @@ namespace GameLibrary.Classes
 
             Item roomItem;
             // nakijken of het item in de huidige kamer, dan wel in de Inventory van de speler zit. Als beide functies null teruggeven, is het item niet gevonden, indien wel, opslagen in roomItem
-            if((roomItem = FindItemInRoom(itemName, World.CurrentRoom)) == null && (roomItem = FindItemInInventory(itemName)) == null)
+            if((roomItem = FindItemInRoom(itemName, CurrentRoom)) == null && (roomItem = FindItemInInventory(itemName)) == null)
             {
                 // item niet gevonden in kamer of inventory
                 return "I don't see that anywhere.";
@@ -189,9 +189,9 @@ namespace GameLibrary.Classes
         /// <returns>True if move was successfull, false if no such Exit exists in current Room.</returns>
         public bool Move(Direction direction)
         {
-            if(World.CurrentRoom.Exits.TryGetValue(direction, out Room room))
+            if(CurrentRoom.Exits.TryGetValue(direction, out Room room))
             {
-                World.CurrentRoom = room;
+                CurrentRoom = room;
                 return true;
             }
             else
