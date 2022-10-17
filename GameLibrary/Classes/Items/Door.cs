@@ -12,7 +12,7 @@ namespace GameLibrary.Classes.Items
         
         private bool isLubricated;
 
-        public string LookMessage()
+        public string LookMessage(Room currentRoom)
         {
             return "A massive oak door in the middle of a forest clearing. It's got a large keyhole covered with cobwebs.";
         }

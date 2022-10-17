@@ -11,7 +11,7 @@ namespace GameLibrary.Classes.Items
         public bool PlayerDrankTooMuch { get; set; }
         private int drinkCount;
 
-        public string LookMessage()
+        public string LookMessage(Room currentRoom)
         {
             return "Ik ben niet verslaafd aan den drank. Ik heb het wel nodig.";
         }

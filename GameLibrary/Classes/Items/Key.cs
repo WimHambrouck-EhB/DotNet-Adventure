@@ -9,7 +9,7 @@ namespace GameLibrary.Classes.Items
     {
         public override List<string> Names => new List<string> { "key", "unwieldy key", "large key", "old key", "old looking key" };
 
-        public string LookMessage()
+        public string LookMessage(Room currentRoom)
         {
             return "A rather unwieldy, old looking key. It must have been lying here for ages!";
         }

@@ -10,7 +10,7 @@ namespace GameLibrary.Classes.Items
         public override List<string> Names => new List<string> { "flower", "white flower", "beautiful flower", "jasmine", "jasmine flower" };
         private bool IsBeered;
 
-        public string LookMessage()
+        public string LookMessage(Room currentRoom)
         {
             if(IsBeered)
             {

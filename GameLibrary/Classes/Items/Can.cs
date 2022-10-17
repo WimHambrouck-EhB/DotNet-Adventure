@@ -10,7 +10,7 @@ namespace GameLibrary.Classes.Items
         public override List<string> Names => new List<string> { "can", "can of wd40", "wd40", "lubricant", "can of lubricant" };
         public bool IsEmpty { get; set; }
 
-        public string LookMessage()
+        public string LookMessage(Room currentRoom)
         {
             // na gebruik op Door, is de bus leeg (zie ook Door klasse)
             if(IsEmpty)

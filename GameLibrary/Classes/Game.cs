@@ -178,7 +178,7 @@ namespace GameLibrary.Classes
             else
             {
                 // als het item ILookable is, casten naar ILookable en LookMessage teruggeven, anders generische boodschap teruggeven
-                return roomItem is ILookable ? ((ILookable)roomItem).LookMessage() : $"That's the second biggest {itemName} I've ever seen!";
+                return roomItem is ILookable ? ((ILookable)roomItem).LookMessage(CurrentRoom) : $"That's the second biggest {itemName} I've ever seen!";
             }
         }
 
